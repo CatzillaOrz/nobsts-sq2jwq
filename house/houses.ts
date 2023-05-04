@@ -1,0 +1,20 @@
+export default [
+  {
+    "name": "Atreides",
+    "planets": "Calladan"
+  },
+  {
+    "name": "Coorino",
+    "planets": [
+      "Kaitan",
+      "Salusa Secundus"
+    ]
+  },
+  {
+    "name": "Harkonnen",
+    "planets": [
+      "Giedi Prime",
+      "Arrakis"
+    ]
+  }
+]
