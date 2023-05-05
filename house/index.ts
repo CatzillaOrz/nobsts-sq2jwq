@@ -1,14 +1,12 @@
-import houses from './houses'
+import houses from './houses.json'
 
 interface House {
   name: string;
   planets: string | string[];
 }
 
-interface HouseWithId {
+interface HouseWithId extends House{
   id: number;
-  name: string;
-  planets: string | string[];
 }
 
 function findHouses(houses: string): HouseWithId[];

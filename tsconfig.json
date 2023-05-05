@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
-    "target": "esnext"
+    "target": "esnext",
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true
   }
 }
