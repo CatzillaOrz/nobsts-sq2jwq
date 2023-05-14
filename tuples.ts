@@ -1,3 +1,7 @@
+/**
+ * tuple is an array each one of the element in the array can be named and have different types
+ */
+
 type ThreeDCoordinate = [x: number, y: number, z: number];
 
 function add3DCoordinate(c1: ThreeDCoordinate, c2: ThreeDCoordinate): ThreeDCoordinate {
