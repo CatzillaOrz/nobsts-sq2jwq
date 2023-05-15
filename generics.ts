@@ -42,3 +42,25 @@ function ranker<RankItem>(items: RankItem[], rank: (v: RankItem) => number): Ran
 
 }
 
+/**
+ * Pokemon
+ */
+interface Pokemon {
+  name: string;
+  hp: number;
+}
+
+const pokemon: Pokemon[] = [
+  {
+    name: "bulbasaur",
+    hp: 20,
+  },
+  {
+    name: "Megaasaur",
+    hp: 5,
+  }
+]
+
+const ranks = ranker(pokemon, ({ hp }) => hp);
+console.log(ranks);
+
