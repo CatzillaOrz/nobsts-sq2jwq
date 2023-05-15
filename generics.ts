@@ -22,3 +22,23 @@ st2setter(
   'string'
 )
 console.log(st2getter());
+
+/**
+ * Rank<RankItem>
+ */
+interface Rank<RankItem> {
+  item: RankItem;
+  rank: number;
+}
+function ranker<RankItem>(items: RankItem[], rank: (v: RankItem) => number): RankItem[] {
+  const ranks: Rank<RankItem>[] = items.map((item) => ({
+    item,
+    rank: rank(item)
+  }))
+
+  ranks.sort((a, b) => a.rank - b.rank)
+
+  return ranks.map(rank => rank.item)
+
+}
+
