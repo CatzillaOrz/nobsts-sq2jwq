@@ -17,7 +17,7 @@ console.log(pluck(dogs, "name"));
 console.log(pluck(dogs, "age"));
 
 /**
- * #8 Generic | Example in interfaces 
+ * #8 Generic | Example in interfaces such as EventMap
  */
 interface BaseEvent {
   time: number;
@@ -42,4 +42,4 @@ sendEvent("addToCart", {
   time: 10
 })
 
-sendEvent("checkout",{time:20, user: 'bob'} )
+sendEvent("checkout", { time: 20, user: 'bob' })
