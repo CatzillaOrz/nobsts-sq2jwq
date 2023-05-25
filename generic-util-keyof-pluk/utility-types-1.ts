@@ -40,7 +40,8 @@ const JustEmail: JustEmailAndName = {
  * Construct a type with the properties of T except for those in type K.
  *
  */
-const mapById = (users: MyUser[]): Record<string, Omit<MyUser, 'id'>> => {
+type UserWithoutId = Omit<MyUser, 'id'>;
+const mapById = (users: MyUser[]): Record<MyUser["id"], UserWithoutId> => {
   return users.reduce((a, v) => {
     const { id, ...other } = v;
     return {
