@@ -1,9 +1,9 @@
 /**
  * Class Members
  */
-interface IDatabase<T> {
-  get(id: string): T;
-  set(id: string, value: T): void;
+interface IDatabase<T, K> {
+  get(id: K): T;
+  set(id: K, value: T): void;
 }
 
 interface IPersistable {
@@ -11,20 +11,21 @@ interface IPersistable {
   resotreFromeString(storedStated: string): void;
 }
 
+type DBKeyTYpe = string | number | symbol;
 /**
  * Implimentation DataBase
  * @private db
  * @protected db
  */
-class IInMemoryDatabase<T> implements IDatabase<T> {
+class IInMemoryDatabase<T, K extends DBKeyTYpe> implements IDatabase<T, K> {
   //private db: Record<string, string> = {}
-  protected db: Record<string, T> = {}
+  protected db: Record<K, T> = {} as Record<K, T>
 
-  get(id: string): T {
+  get(id: K): T {
     return this.db[id]
   }
 
-  set(id: string, value: T): void {
+  set(id: K, value: T): void {
     this.db[id] = value;
   }
 }
@@ -32,7 +33,7 @@ class IInMemoryDatabase<T> implements IDatabase<T> {
  * Implimentation Persistable Extends Datebase
  * Change Private db => Protected db
  */
-class IPersistenMemoryDB<T> extends IInMemoryDatabase<T> implements IPersistable {
+class IPersistenMemoryDB<T, K extends DBKeyTYpe> extends IInMemoryDatabase<T, K> implements IPersistable {
   saveToString(): string {
     return JSON.stringify(this.db)
   }
@@ -41,7 +42,7 @@ class IPersistenMemoryDB<T> extends IInMemoryDatabase<T> implements IPersistable
   }
 }
 
-const myDB_ = new IPersistenMemoryDB<number>();
+const myDB_ = new IPersistenMemoryDB<number, string>();
 myDB_.set('foo',22)
 //myDB_.db['foo'] = 'barz'
 console.log(myDB_.get('foo'));
