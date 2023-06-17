@@ -1,5 +1,6 @@
 /**
  * @type: filter
+ * @note: if runtime error occur, use nvm 16,to fix
  */
 
 type FilterFunction<T> = (data: T[keyof T]) => boolean;
