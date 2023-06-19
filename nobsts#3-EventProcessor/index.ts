@@ -73,9 +73,8 @@ uep.addMap("login", (data) => ({
   hasSession: Boolean(data.user && data.name)
 }))
 
-uep.handleEvent("login", {
-  user: null,
-  name: 'Jack'
+uep.handleEvent("logout", {
+  user: 'Jack',
 })
 
 uep.handleEvent("login", {
