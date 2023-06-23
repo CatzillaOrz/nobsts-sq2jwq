@@ -20,3 +20,19 @@ function permuteRows<T extends (...args: any[]) => any>(iteratorFunc: T,
 
 console.log(permuteRows(addFullName, [{ first: 'jack', last: 'herrington' }]));
 
+class PersonWithFullName {
+  constructor(public name: Name) { }
+
+  getFullName() {
+    return `${this.name.first} ${this.name.last}`
+  }
+}
+
+function createObjects<T extends new (...args: any[]) => any>(
+  ObjectType: T,
+  data: ConstructorParameters<T>[0][]
+): InstanceType<T>[] {
+  return data.map(item => new ObjectType(item))
+}
+
+console.log(createObjects(PersonWithFullName, [{ first: 'jack', last: 'herrington' }]));
