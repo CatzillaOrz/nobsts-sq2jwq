@@ -1,5 +1,6 @@
 /**
  * @type: filter
+ * @note: if runtime error occur, use nvm 16,to fix
  */
 
 type FilterFunction<T> = (data: T[keyof T]) => boolean;
@@ -56,4 +57,30 @@ class EventProcessor<T extends {}> {
     return this.processed;
   }
 }
+
+interface EventMap {
+  login: {user?: string; name?: string; hasSession?: boolean};
+  logout: {user?: string};
+}
+
+class UserEventPro extends EventProcessor<EventMap>{ }
+const uep = new UserEventPro();
+
+uep.addFilter('login', ({user}) => Boolean(user))
+
+uep.addMap("login", (data) => ({
+  ...data,
+  hasSession: Boolean(data.user && data.name)
+}))
+
+uep.handleEvent("logout", {
+  user: 'Jack',
+})
+
+uep.handleEvent("login", {
+  user: 'Tom',
+  name: 'Tomas'
+})
+
+console.log(uep.getProcessedEvents());
 
