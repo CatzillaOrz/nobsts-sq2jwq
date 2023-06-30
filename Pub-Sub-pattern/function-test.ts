@@ -1,6 +1,6 @@
-import { createSubscribable } from './pub-sub-function-variant'
+import { Subscribable } from './subscribale'
 
-const sub = createSubscribable<string>();
+const sub = new Subscribable<string>();
 const unsub = sub.subscribe(console.log);
 sub.publish("hello")
 sub.publish("whatthefunck")
