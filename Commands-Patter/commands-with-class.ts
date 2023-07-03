@@ -33,6 +33,29 @@ class AddOne extends Command<number> {
   }
 }
 
+class SubtractOne extends Command<number> {
+  execute(state: number) {
+    return state - 1;
+  }
+  undo(state: number) {
+    return state + 1;
+  }
+}
+
+class SetValue extends Command<number> {
+  private _originalValue?: number;
+  constructor(private value: number) {
+    super();
+  }
+
+  execute(state: number) {
+    this._originalValue = state;
+    return this.value;
+  }
+  undo(state: number) {
+    return this._originalValue!;
+  }
+}
 const cs = new CommandStack<number>(0);
 cs.execute(new AddOne());
 cs.execute(new AddOne());
@@ -40,5 +63,9 @@ cs.execute(new AddOne());
 cs.execute(new AddOne());
 console.log(cs.state);
 cs.undo();
+cs.execute(new SubtractOne());
+cs.execute(new SubtractOne());
+cs.execute(new SubtractOne());
+cs.execute(new SetValue(100));
 console.log(cs.state);
 
