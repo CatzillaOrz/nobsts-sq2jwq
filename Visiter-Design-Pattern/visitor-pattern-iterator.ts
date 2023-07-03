@@ -11,7 +11,7 @@ async function* interateResults<DataType>(
       next?: string;
       results: DataType[];
     } = await response.json();
-    yield json.results;
+    yield* json.results;
     nextUrl = json.next;
   } while (nextUrl);
 }
