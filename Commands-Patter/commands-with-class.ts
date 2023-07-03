@@ -56,6 +56,7 @@ class SetValue extends Command<number> {
     return this._originalValue!;
   }
 }
+
 const cs = new CommandStack<number>(0);
 cs.execute(new AddOne());
 cs.execute(new AddOne());
@@ -67,5 +68,8 @@ cs.execute(new SubtractOne());
 cs.execute(new SubtractOne());
 cs.execute(new SubtractOne());
 cs.execute(new SetValue(100));
+console.log(cs.state);
+cs.undo();
+cs.execute(new SubtractOne());
 console.log(cs.state);
 
