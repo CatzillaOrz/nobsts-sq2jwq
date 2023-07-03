@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-// import { Pokemon } from './index'
+import { Pokemon } from './index'
 
 async function* interateResults<DataType>(
   url: string
@@ -17,9 +17,12 @@ async function* interateResults<DataType>(
 }
 
 (async function() {
-  for await (const result of interateResults(
+  for await (const result of interateResults<Pokemon>(
     'https://pokeapi.co/api/v2/pokemon',
   )) {
     console.log(result);
+    if (result.name === 'pikachu') {
+      break;
+    }
   }
 })()
