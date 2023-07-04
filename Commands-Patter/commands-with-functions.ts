@@ -33,9 +33,18 @@ const subtractOne: CommandFunction<number> = (state) => [
   (state) => state + 1
 ]
 
+const createSetValue = (value: number): CommandFunction<number> => {
+  return (state) => {
+    const _originalState = state;
+    return [value, () => _originalState]
+  }
+}
 const cStack = CreateCommandStack(0);
 console.log(cStack.execute(addOne));
 console.log(cStack.undo());
 console.log(cStack.execute(subtractOne));
+console.log(cStack.undo());
+const setTo442 = createSetValue(442);
+console.log(cStack.execute(setTo442));
 console.log(cStack.undo());
 
