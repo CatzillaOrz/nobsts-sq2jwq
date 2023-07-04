@@ -1,50 +1,42 @@
-type CommandFunction<State> = (state: State) => [
-  State,
-  (state: State) => State
-]
+type CommandFunctionMementoFn<State> = (state: State) => State;
+
 
 function CreateCommandStack<State>(state: State) {
-  const stack: ((state: State) => State)[] = [];
-  let _state = state;
+  const stack: string[] = [
+    JSON.stringify(state)
+  ];
   return {
-    execute(command: CommandFunction<State>) {
-      const [newState, undoFunction] = command(_state);
-      _state = newState;
-      stack.push(undoFunction);
-      return _state;
+    execute(command: CommandFunctionMementoFn<State>) {
+      const currentState = JSON.parse(stack[stack.length - 1]);
+      const newState = command(currentState);
+      stack.push(JSON.stringify(newState));
+      return newState;
     },
     undo() {
-      const command = stack.pop();
-      if (command) {
-        _state = command(_state);
+      if (stack.length > 1) {
+        stack.pop()
       }
-      return _state;
+      return JSON.parse(stack[stack.length - 1]);
     }
   }
 }
 
-const addOne: CommandFunction<number> = (state) => [
-  state + 1,
-  (state) => state - 1
-]
+const addOneMemento: CommandFunctionMementoFn<number> = (state) => state + 1
 
-const subtractOne: CommandFunction<number> = (state) => [
-  state - 1,
-  (state) => state + 1
-]
 
-const createSetValue = (value: number): CommandFunction<number> => {
-  return (state) => {
-    const _originalState = state;
-    return [value, () => _originalState]
-  }
+const subtractOneMemento: CommandFunctionMementoFn<number> = (state) => state - 1
+
+
+const createSetValueMemento = (value: number): CommandFunctionMementoFn<number> => {
+  return () => value
 }
-const cStack = CreateCommandStack(0);
-console.log(cStack.execute(addOne));
-console.log(cStack.undo());
-console.log(cStack.execute(subtractOne));
-console.log(cStack.undo());
-const setTo442 = createSetValue(442);
-console.log(cStack.execute(setTo442));
-console.log(cStack.undo());
+
+const cStackMemnto = CreateCommandStack(0);
+console.log(cStackMemnto.execute(addOneMemento));
+console.log(cStackMemnto.undo());
+console.log(cStackMemnto.execute(subtractOneMemento));
+console.log(cStackMemnto.undo());
+const setTo442Memento = createSetValueMemento(442);
+console.log(cStackMemnto.execute(setTo442Memento));
+console.log(cStackMemnto.undo());
 
