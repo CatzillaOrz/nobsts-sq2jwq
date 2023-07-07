@@ -17,16 +17,33 @@ interface PokemonList {
   }[]
 }
 
+function makeURLFlyweights<ReturnType>(urls: Record<string, string>) {
+  const myObject: Record<string, Promise<ReturnType>> = {};
+
+  return new Proxy(myObject, {
+    get: (target, name: string) => {
+      console.log(`Fetching ${name} ${urls[name]}`);
+      if (!target[name]) {
+        target[name] = fetch(urls[name]).then(res => res.json())
+      }
+      return target[name]
+    }
+  })
+}
+
 (async () => {
   const pokemon = (await (
     await fetch('https://pokeapi.co/api/v2/pokemon'
     )).json()) as PokemonList;
-  console.log(pokemon);
   const urls = pokemon.results.reduce(
     (acc, { name, url }) => ({
       ...acc,
       [name]: url,
     }),
     {}
-  )
+  );
+
+  const lookup = makeURLFlyweights<Pokemon>(urls);
+  const data = await lookup.bulbasaur;
+  console.log(data.species);
 })()
